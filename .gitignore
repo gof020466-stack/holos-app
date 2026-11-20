@@ -1,0 +1,9 @@
+# Личное и машинное: история, настройки, журнал, записи голоса, тестовые записи
+data/
+# Модели — большие (сотни МБ), ставятся отдельно: tools/pack_for_transfer.bat
+models/
+__pycache__/
+*.pyc
+*.part
+# Личные строки для tools/privacy_check.py
+tools/privacy_patterns.txt
