@@ -7,3 +7,5 @@ __pycache__/
 *.part
 # Личные строки для tools/privacy_check.py
 tools/privacy_patterns.txt
+# Варианты логотипа — рабочие, в репозиторий не входят
+docs/logo-variants/
