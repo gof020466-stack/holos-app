@@ -17,7 +17,9 @@
 
 <img src="docs/demo-ru.gif" width="650" alt="Демо Голоса за 90 секунд: диктовка, созвон, говорящие, плеер, ассистент, изложение, команды" />
 
-▶ [Ролик со звуком — 1:30](docs/demo-ru.mp4)
+**Ролик со звуком — 1:30:**
+
+https://github.com/user-attachments/assets/ff9e236c-67b1-4a2a-91bb-362a86bd3111
 
 </div>
 
