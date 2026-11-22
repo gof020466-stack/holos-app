@@ -10,7 +10,7 @@
 #else
 #define AppName "Голос"
 #endif
-#define AppVer "3.2.3"
+#define AppVer "3.2.5"
 #define ModelCheck "app\models\sherpa-onnx-nemo-transducer-punct-giga-am-v3-russian-2025-12-16"
 
 [Setup]

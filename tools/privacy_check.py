@@ -58,7 +58,9 @@ def main():
             personal = [line.strip() for line in f if line.strip() and not line.startswith('#')]
     else:
         print(f'! Нет {PATTERNS_FILE} — проверяются только почта, телефоны, пути профиля.')
-    rx = re.compile('|'.join(GENERIC + [r'\b' + re.escape(p) + r'\b' for p in personal]), re.IGNORECASE)
+    # [22.11.2026] Без \b в конце — ловит и падежи имени: целым словом пропускал их.
+    # Цена — лишние находки (имя — начало обычного слова); их отсеять глазами
+    rx = re.compile('|'.join(GENERIC + [r'\b' + re.escape(p) for p in personal]), re.IGNORECASE)
 
     hits, binaries = [], []
     for rel in tracked_files():

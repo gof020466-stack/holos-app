@@ -1,0 +1,62 @@
+{
+ "sherpa-onnx-nemo-transducer-punct-giga-am-v3-russian-2025-12-16": {
+  "LICENSE": "f00de6715714c7a63d08639cdbfaa40224eefc407302614bd19f1a8b98c875aa",
+  "README.md": "9e5421be1bdcd7c0e87b7e1bc8b779aa94704baf50b5bfa87b03758a678127c8",
+  "decoder.onnx": "38fc7475443ea2a26f63211ca350f73ac50fff824ab7a3876ee2bd610c53bbc4",
+  "encoder.int8.onnx": "369f35a71bf288d3b8e0391fabd8dba5f2314088d440bca474056b7b4b6e66bf",
+  "joiner.onnx": "602ff7017a93311aad34df1437c8d7f49911353c13d6eae7a6ee7b041339465c",
+  "run-rnnt-v3-punct.sh": "49ef2993a5dd8aa35f00aabd41d9bb39bf41bdb42d97cdbcb8dd9ee2f487bc38",
+  "test-onnx-rnnt.py": "9ff1fbf49a0b94732ccf54de0a6b3a3e608ef9fb8cd4f5758961cb5df94f6d8c",
+  "test_wavs/example.wav": "d8aaaa18a5098d7c6de0595ae7ac1e64cacd0d4022af3595213bdaf23be77e69",
+  "tokens.txt": "39abae20e692998290c574e606f11a9edef2902a1995463fcff63d1490cf22b7"
+ },
+ "vosk-model-small-streaming-ru-0.54": {
+  "README.md": "b69dcb2f61adcf999ad655fbb5c5f0998f9c2abd9cd9fbdc69acfd1282d96151",
+  "am-onnx/decoder.int8.onnx": "2b0df458692e1d090075c8249001136ef05240dd0d726a6b56552fd46c538b2d",
+  "am-onnx/decoder.onnx": "89b3088a9e20e1ef7f2e85ce1a3478afe6a9c4ac57369cabcc4beb8e95328ea0",
+  "am-onnx/encoder.int8.onnx": "e0db705e94ec35d803b1df4f40cda23d064e1142977c80ab288430b109777a9d",
+  "am-onnx/encoder.onnx": "e9c27453e618bc97cf8a10169f34c104bd478166522907fcd122a46a88c78c69",
+  "am-onnx/joiner.int8.onnx": "b55784b071ab7512eab4c7c44e4f5478284ef33c83562cc6a249b972515a31e5",
+  "am-onnx/joiner.onnx": "dde0c7f3be0a16113a3e042c79a492c48667c07a8c1e9422ffe81c768aad4838",
+  "lang/bpe.model": "c7a756aeb3550417d6b2ed3efde9a7aa3eea54787d4eac011e9cce6090c9c64a",
+  "lang/tokens.txt": "93bbbc0bae6b78c0bbb743d4aa9fded3bb5ff3aac5f0200e3a769a5a05e0fdf6",
+  "test.wav": "d6e768803b3bc3afcb08326677f3bb872c9beeed29af40d3579bcc14e74484f8"
+ },
+ "vosk-model-small-ru-0.22": {
+  "README": "b662517cacda14945e159538d6dd8faff23bd706e024c4fb338b6013c9939b9e",
+  "am/final.mdl": "36d67b53dc90d96ea48097f9e17e7c5937689ad76cb8bed25091317bbaf25919",
+  "conf/mfcc.conf": "1e2228006d01d805ad1c267fee9f79709ca87ac51bd82b0e3f5c69ba543f0fc4",
+  "conf/model.conf": "dd7178da0e99fdbe489816c1e9702c3daa28e02accacc2993e0becb7af33b80c",
+  "graph/Gr.fst": "189b4f67c69eb34b9d8b47b12f184665e5445667ca5264579b61c6b9eb2cef1e",
+  "graph/HCLr.fst": "0b096f4676f306aa3e60d2244ef1e24c5c699b8794acf3c3946b59bcc9dca831",
+  "graph/disambig_tid.int": "c3af3dbc5eb301c4b282480d785c04b1642a8db83210a12332e9790e50146fd2",
+  "graph/phones/word_boundary.int": "23081404fe1cc7338c013a4beec133637147d60472c06ab64ff88ee3d028a7b5",
+  "ivector/final.dubm": "7dffe22bd992d7274fba925632bded4756d82dfd9b962d3c703110251fdf35b8",
+  "ivector/final.ie": "94f2558d00fe199ac01409281352eb16707ec075baaf9cc0d7b53011583cfa0e",
+  "ivector/final.mat": "956577d396b636fe359b4321f10df5ed6a76bdfdec366b4a2b7d3242e524f04f",
+  "ivector/global_cmvn.stats": "c600cbf4acfbfac99d587040d48dc31129cd635b112ff15bfa2e9d3b0cece1f8",
+  "ivector/online_cmvn.conf": "a2f3571754b64297cb7efb2e7ca3df61995c5a45fcbb97188f90613552bb2dfe",
+  "ivector/splice.conf": "9f0c5f7c82d18eaf25d8bce470efa9f7741f88411fe428774bc0a9bb69a24756"
+ },
+ "diarization": {
+  "sherpa-onnx-pyannote-segmentation-3-0/LICENSE": "14d7016ad68e7394d6e6b78d96cc2ae431c905287b89674cfdf021e79e62b8ba",
+  "sherpa-onnx-pyannote-segmentation-3-0/README.md": "0380ed76a50efcc421dc62f251ed06e8349688466beac3177bee6e00dc336bfc",
+  "sherpa-onnx-pyannote-segmentation-3-0/export-onnx.py": "21df426fc6ca2ad54b5c9e114729990e0a669d602ea4e052f38287f99d32c0b0",
+  "sherpa-onnx-pyannote-segmentation-3-0/model.int8.onnx": "d582f4b4c6b48205de7e0643c57df0df5615a3c176189be3fc461e9d18827b5d",
+  "sherpa-onnx-pyannote-segmentation-3-0/model.onnx": "220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079",
+  "sherpa-onnx-pyannote-segmentation-3-0/run.sh": "5844c56ec90b29d0f01056f81e3f66f84ed4ef598bfc8705f86cd290d73138b3",
+  "sherpa-onnx-pyannote-segmentation-3-0/show-onnx.py": "ace74dd3749e345cfac03a2d869830a99e7425ebc100545d7e8b2b95568ee575",
+  "sherpa-onnx-pyannote-segmentation-3-0/speaker-diarization-onnx.py": "51e301c2d02c87351a22582e51e883d4f18e4755d193587e69e1fd7f357132e7",
+  "sherpa-onnx-pyannote-segmentation-3-0/speaker-diarization-torch.py": "72f9fa5dd9f4966869acf79ef3b1328398434c70373f462d373895757aa0fae7",
+  "sherpa-onnx-pyannote-segmentation-3-0/vad-onnx.py": "4fbd5d74faf7bb34133f3268d1f184f9a43bfa3e3220acf1dbec7e9bef41e848",
+  "sherpa-onnx-pyannote-segmentation-3-0/vad-torch.py": "ecd6d40be0229624b7a312a1e2a3cffddeaf432706395df26c76fe588bf8dc66",
+  "speaker-embedding.onnx": "f1ee61be04000b50392a63442e5dd9feaea7e81dddd494d3647cf1c3d88a1498"
+ },
+ "parakeet-ultra-onnx": {
+  "config.json": "72d94a8db19b4c6960f216dd68f2a00795652dde8512e0bcfd24a33e6eabf5a9",
+  "decoder_joint-model.onnx": "56b40b3caafdd52490fec56a99e340fad89903e2a2126ab61d929bffb5a948d4",
+  "encoder-model.onnx": "e921fc89f0875559a3da50e3a137e4f2979c8076a48bd330313fa9447abede10",
+  "preprocessor.onnx": "e931b8a8361bfbda004ef8b21378049f7199faea6f99320058f89983eda05bfe",
+  "vocab.txt": "d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d"
+ }
+}

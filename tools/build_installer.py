@@ -11,16 +11,18 @@
 import os, shutil, subprocess, sys, glob
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BUILD = r'D:\Apps\holos-build'
+# [22.11.2026] Пути — из переменных среды для сборки в GitHub Actions (.github/workflows/build.yml);
+# без них — как на ПК разработчика
+BUILD = os.environ.get('HOLOS_BUILD') or r'D:\Apps\holos-build'
 STAGE = os.path.join(BUILD, 'Holos')
 PY = os.path.dirname(sys.executable)
-MODELS_SRC = r'D:\Apps\VOSK_BASE\models'
+MODELS_SRC = os.environ.get('HOLOS_MODELS') or r'D:\Apps\VOSK_BASE\models'
 MODELS = ['sherpa-onnx-nemo-transducer-punct-giga-am-v3-russian-2025-12-16', 'vosk-model-small-streaming-ru-0.54',
           'vosk-model-small-ru-0.22', 'diarization', 'parakeet-ultra-onnx']
 PACKAGES = ['PySide6==6.11.1', 'vosk==0.3.45', 'sherpa-onnx==2.0.1', 'sounddevice==0.5.2', 'soundfile==0.13.1',
             'numpy==2.3.3', 'requests==2.32.5', 'QtAwesome==1.4.2', 'srt==3.5.3', 'keyboard==0.13.5',
             'onnx-asr==0.12.0', 'onnxruntime==1.31.1', 'PyAudioWPatch==0.2.12.9']
-ISCC = os.path.expandvars(r'%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe')
+ISCC = os.environ.get('HOLOS_ISCC') or os.path.expandvars(r'%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe')
 
 # Части Qt, которых программа не использует (Core, Gui, Widgets, Network, Multimedia — нужны)
 QT_DROP = ['Qt6WebEngine*', 'QtWebEngineProcess*', 'Qt6Quick3D*', 'Qt63D*', 'Qt6Pdf*', 'Qt6Designer*', 'Qt6Charts*',
@@ -58,6 +60,13 @@ def build_runtime():
             os.remove(f) if os.path.isfile(f) else shutil.rmtree(f)
     for d in QT_DROP_DIRS:
         shutil.rmtree(os.path.join(qt, d), ignore_errors=True)
+    # [22.11.2026] Проба в песочнице Windows: на чистой системе onnxruntime (Parakeet) не грузится —
+    # нет msvcp140*.dll (Visual C++). Python везёт только vcruntime140*. Кладём их рядом с python.exe.
+    for n in ('msvcp140.dll', 'msvcp140_1.dll', 'msvcp140_2.dll'):
+        src = os.path.join(os.environ.get('SystemRoot', r'C:\Windows'), 'System32', n)
+        if not os.path.isfile(src):
+            sys.exit(f'Нет {src}: поставьте Visual C++ Redistributable x64 на ПК сборки')
+        shutil.copy2(src, rt)
     print(f'   runtime: {size_mb(rt):.0f} МБ')
 
 
@@ -90,7 +99,28 @@ def build_app():
     print(f'   app: {size_mb(app):.0f} МБ')
 
 
+def check_no_personal():
+    # [22.11.2026] В установку идёт версия без каких-либо записей. Сборка падает,
+    # если в app есть data, база, настройки, журнал или звук вне образцов моделей (test.wav, test_wavs)
+    bad = []
+    app = os.path.join(STAGE, 'app')
+    for root, dirs, files in os.walk(app):
+        rel = os.path.relpath(root, app)
+        if 'data' in rel.split(os.sep):
+            bad.append(rel)
+        for f in files:
+            low = f.lower()
+            in_models = rel.split(os.sep)[0] == 'models'
+            if low.endswith(('.db', '.sqlite', '.ini', '.log', '.kdbx')) or (
+                    low.endswith(('.wav', '.mp3', '.ogg', '.flac', '.m4a', '.webm', '.opus')) and not in_models):
+                bad.append(os.path.join(rel, f))
+    if bad:
+        sys.exit('ЛИЧНОЕ В СБОРКЕ — установщик не собран:\n  ' + '\n  '.join(bad))
+    print('   личного в app нет (data, база, настройки, журнал, записи)')
+
+
 def build_setup(test=False):
+    check_no_personal()
     # [18.11.2026] модели отдельно: полный Holos-Setup и Holos-Update без моделей — из одной папки сборки
     iss = os.path.join(SRC, 'installer', 'holos.iss')
     out = os.path.join(BUILD, 'dist-test' if test else 'dist')

@@ -44,4 +44,6 @@ CC BY 4.0: https://creativecommons.org/licenses/by/4.0/ — no changes were made
 |---|---|---|
 | FFmpeg 9.0 (`bin\ffmpeg.exe` in the installer, LGPL build by FFmpeg-Builds) | LGPL-3.0 | Separate program, called as a process, not linked; license text — `bin\LICENSE-ffmpeg.txt`. Source: https://ffmpeg.org, build scripts: https://github.com/BtbN/FFmpeg-Builds |
 
+| Microsoft Visual C++ runtime (`runtime\msvcp140*.dll`) | Microsoft Visual C++ Redistributable license | Redistributable files, unchanged; needed by ONNX Runtime on Windows without Visual C++ installed |
+
 Apache 2.0: https://www.apache.org/licenses/LICENSE-2.0 · MIT: https://opensource.org/license/mit · LGPL-3.0: https://www.gnu.org/licenses/lgpl-3.0.html

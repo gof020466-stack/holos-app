@@ -1,0 +1,79 @@
+# Сборка установщиков «Голоса» в GitHub Actions — условие SignPath (подпись только сборок из CI)
+# 22.11.2026. Модели — с сайтов авторов, каждый файл сверяется по SHA256 (tools/models.lock.json).
+# Результат — артефакт «holos-installers»: Holos-Setup-<версия>.exe и Holos-Update-<версия>.exe.
+name: build
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+    branches: ['ci']
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    env:
+      HOLOS_ISCC: C:\Program Files (x86)\Inno Setup 6\ISCC.exe
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Пути сборки
+        shell: pwsh
+        run: |
+          "HOLOS_BUILD=$env:RUNNER_TEMP\holos-build" >> $env:GITHUB_ENV
+          "HOLOS_MODELS=$env:RUNNER_TEMP\models" >> $env:GITHUB_ENV
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Inno Setup
+        shell: pwsh
+        run: |
+          if (-not (Test-Path $env:HOLOS_ISCC)) { choco install innosetup -y --no-progress }
+          if (-not (Test-Path $env:HOLOS_ISCC)) { throw "Нет ISCC: $env:HOLOS_ISCC" }
+
+      - name: Модели — кеш по списку хешей
+        id: models-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}\models
+          key: models-${{ hashFiles('tools/models.lock.json', 'tools/models_sources.json') }}
+
+      - name: Модели — скачать и сверить
+        if: steps.models-cache.outputs.cache-hit != 'true'
+        run: python -X utf8 tools/fetch_models.py "${{ runner.temp }}\models"
+
+      - name: FFmpeg (LGPL)
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:HOLOS_BUILD 'ffmpeg-lgpl'
+          New-Item -ItemType Directory -Force $dir | Out-Null
+          $zip = Join-Path $env:RUNNER_TEMP 'ffmpeg.zip'
+          Invoke-WebRequest 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n9.0-latest-win64-lgpl-9.0.zip' -OutFile $zip
+          Expand-Archive $zip (Join-Path $env:RUNNER_TEMP 'ffmpeg-x')
+          $root = Get-ChildItem (Join-Path $env:RUNNER_TEMP 'ffmpeg-x') -Directory | Select-Object -First 1
+          Copy-Item (Join-Path $root.FullName 'bin\ffmpeg.exe') $dir
+          Copy-Item (Join-Path $root.FullName 'LICENSE.txt') (Join-Path $dir 'LICENSE-ffmpeg.txt')
+
+      - name: Сборка установщиков
+        run: python -X utf8 tools/build_installer.py
+
+      - name: Проба собранной программы
+        shell: pwsh
+        run: |
+          & "$env:HOLOS_BUILD\Holos\runtime\python.exe" -X utf8 tools/smoke_test.py "$env:HOLOS_BUILD\Holos\app"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Get-ChildItem "$env:HOLOS_BUILD\Holos\runtime" -Directory | ForEach-Object { "{0,6:N0} МБ {1}" -f ((Get-ChildItem $_.FullName -Recurse -File | Measure-Object Length -Sum).Sum/1MB), $_.Name }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: holos-installers
+          path: ${{ runner.temp }}\holos-build\dist\*.exe
+          if-no-files-found: error
+          compression-level: 0

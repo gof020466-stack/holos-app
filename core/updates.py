@@ -13,8 +13,8 @@ import urllib.request
 
 from PySide6.QtCore import QThread, Signal
 
-VERSION = "3.2.3"
-VERSION_DATE = "20.11.2026"
+VERSION = "3.2.5"
+VERSION_DATE = "22.11.2026"
 # Адрес открытого репозитория — один на всю программу
 REPO = "gof020466-stack/holos-app"
 RELEASES_URL = f"https://github.com/{REPO}/releases"
@@ -37,7 +37,19 @@ def is_newer(remote: str, local: str = VERSION) -> bool:
 
 
 def fetch_latest(timeout: float = 10.0) -> dict:
-    """{'version', 'url'} последнего релиза. Ошибка сети или нет релизов — исключение."""
+    """{'version', 'url'} последнего релиза. Ошибка сети или нет релизов — исключение.
+    [3.3, 22.11.2026] Сначала — переход со страницы /releases/latest на /releases/tag/vX.Y.Z:
+    у страниц сайта нет лимита API (60 запросов в час на адрес, общий у многих людей).
+    API — запасной путь."""
+    try:
+        req = urllib.request.Request(f"{RELEASES_URL}/latest", method="HEAD",
+                                     headers={"User-Agent": "Holos-update-check"})
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            final = resp.geturl()
+        if "/releases/tag/" in final:
+            return {"version": final.rsplit("/", 1)[-1], "url": final}
+    except Exception as e:
+        logger.info("Страница релизов не ответила, пробую API: %s", e)
     req = urllib.request.Request(API_URL, headers={"Accept": "application/vnd.github+json",
                                                    "User-Agent": "Holos-update-check"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
