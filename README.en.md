@@ -124,6 +124,17 @@ Python; the recognition engine is [sherpa-onnx](https://github.com/k2-fsa/sherpa
 
 Licenses of all models and libraries — [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
+## Code signing policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
+- Committers and reviewers: [gof020466-stack](https://github.com/gof020466-stack)
+- Approvers: [gof020466-stack](https://github.com/gof020466-stack)
+
+Every release is built by GitHub Actions from this repository and signed only after manual approval.
+
+**Privacy policy:** this program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. Details — see "Privacy" above.
+
 ## License
 
 MIT. Use it freely.

@@ -128,6 +128,17 @@ Python, движок распознавания — [sherpa-onnx](https://github
 
 Лицензии всех моделей и библиотек — [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
+## Code signing policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
+- Committers and reviewers: [gof020466-stack](https://github.com/gof020466-stack)
+- Approvers: [gof020466-stack](https://github.com/gof020466-stack)
+
+Every release is built by GitHub Actions from this repository and signed only after manual approval.
+
+**Privacy policy:** this program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. Details — see «Приватность» above.
+
 ## Лицензия
 
 MIT. Пользуйтесь свободно.
